@@ -62,14 +62,6 @@ Recent posts:
   <img src="https://skillicons.dev/icons?i=go,ts,rust,python,bash,kubernetes,docker,ansible,terraform,postgres,git,github" alt="Go, TypeScript, Rust, Python, Bash, Kubernetes, Docker, Ansible, Terraform, PostgreSQL, Git, and GitHub" />
 </p>
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=yaelmoshi&show_icons=true&theme=transparent&hide_border=true&rank_icon=github" alt="Yael's GitHub stats" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=yaelmoshi&layout=compact&theme=transparent&hide_border=true&langs_count=8" alt="Yael's most used public GitHub languages" />
-</p>
-
 ---
 
 <p align="center">
