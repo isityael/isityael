@@ -34,8 +34,10 @@ topics, and longer thoughts about technology, identity, and life.
 
 Recent posts:
 
-- [I Tried Everything Except Being Myself](https://yael.m0sh1.cc/i-tried-everything-except-being-myself/)
-- [I Became Very Good at Functioning](https://yael.m0sh1.cc/i-became-very-good-at-functioning/)
+<!-- recent-writing:start -->
+- [I Tried Everything Except Being Myself](https://yael.m0sh1.cc/i-tried-everything-except-being-myself/) - 26 May 2026
+- [I Became Very Good at Functioning](https://yael.m0sh1.cc/i-became-very-good-at-functioning/) - 07 May 2026
+<!-- recent-writing:end -->
 
 ## Current Focus
 
@@ -51,7 +53,9 @@ Recent posts:
 | [wakapi](https://github.com/yaelmoshi/wakapi) | Self-hosted WakaTime-compatible coding statistics backend |
 | [karakeep](https://github.com/yaelmoshi/karakeep) | Self-hostable bookmark, notes, image, AI tagging, and search app |
 | [proxmox-csi-plugin](https://github.com/yaelmoshi/proxmox-csi-plugin) | Kubernetes CSI integration for Proxmox storage |
+| [netzbremse](https://github.com/yaelmoshi/netzbremse) | CNPG-backed speed telemetry service and dashboard |
 | [helm-charts](https://github.com/yaelmoshi/helm-charts) | Helm chart work for self-hosted and GitOps-managed services |
+| [chart-version-guard](https://github.com/yaelmoshi/chart-version-guard) | CI guardrail enforcing Helm chart version bumps |
 | [harbor](https://github.com/yaelmoshi/harbor) | Cloud-native registry work used in the local platform |
 | [csi-driver-nfs](https://github.com/yaelmoshi/csi-driver-nfs) | Kubernetes NFS CSI driver maintenance and dependency work |
 | [apple-mail-mcp](https://github.com/yaelmoshi/apple-mail-mcp) | MCP server for Apple Mail automation and assistant workflows |
@@ -61,6 +65,11 @@ Recent posts:
 <p align="center">
   <img src="https://skillicons.dev/icons?i=go,ts,rust,python,bash,kubernetes,docker,ansible,terraform,postgres,git,github" alt="Go, TypeScript, Rust, Python, Bash, Kubernetes, Docker, Ansible, Terraform, PostgreSQL, Git, and GitHub" />
 </p>
+
+## Contact
+
+Best place to start: [yael.m0sh1.cc](https://yael.m0sh1.cc/).
+For code and infrastructure work, I am usually around GitHub and Forgejo.
 
 ---
 

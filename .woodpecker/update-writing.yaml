@@ -1,0 +1,38 @@
+when:
+  - event: manual
+  - event: cron
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git:2.9.0@sha256:1e536c0da16f8cbb35e870fb3d75fde45c85c7239225fea2209cc6990ba330e4
+    settings:
+      lfs: false
+      tags: false
+
+steps:
+  - name: update-recent-writing
+    image: dhi.io/node:24-alpine3.23-dev@sha256:141c59c2d30cfbcea7502b5975a1c376b5b409d3ffdc869b85a84ed8f5d9d863
+    environment:
+      GIT_PUSH_TOKEN:
+        from_secret: forgejo_profile_push_token
+      GIT_PUSH_USER: m0sh1
+    commands:
+      - node scripts/update-recent-writing.mjs
+      - |
+        if git diff --quiet -- README.md; then
+          echo "README.md already has the latest writing."
+          exit 0
+        fi
+      - git config user.name "woodpecker-profile-bot"
+      - git config user.email "woodpecker@m0sh1.cc"
+      - git add README.md
+      - 'git commit -m "chore: update recent writing"'
+      - |
+        test -n "$GIT_PUSH_TOKEN"
+        umask 077
+        cat > "$HOME/.netrc" <<EOF
+        machine git.m0sh1.cc
+          login ${GIT_PUSH_USER}
+          password ${GIT_PUSH_TOKEN}
+        EOF
+      - git push origin HEAD:main
