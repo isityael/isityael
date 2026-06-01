@@ -1,0 +1,20 @@
+when:
+  - event: manual
+  - event: cron
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git:2.9.0@sha256:1e536c0da16f8cbb35e870fb3d75fde45c85c7239225fea2209cc6990ba330e4
+    settings:
+      lfs: false
+      tags: false
+
+steps:
+  - name: sync-github-mirrors
+    image: dhi.io/node:24-alpine3.23-dev@sha256:141c59c2d30cfbcea7502b5975a1c376b5b409d3ffdc869b85a84ed8f5d9d863
+    environment:
+      GITHUB_PUSH_TOKEN:
+        from_secret: github_push_token
+    commands:
+      - apk add --no-cache ca-certificates git
+      - node scripts/sync-github-mirrors.mjs
