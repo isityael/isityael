@@ -1,6 +1,8 @@
 when:
   - event: manual
+    branch: main
   - event: cron
+    branch: main
 
 clone:
   git:
@@ -12,12 +14,17 @@ clone:
 steps:
   - name: update-recent-writing
     image: dhi.io/node:24-alpine3.23-dev@sha256:141c59c2d30cfbcea7502b5975a1c376b5b409d3ffdc869b85a84ed8f5d9d863
+    commands:
+      - node --test scripts/update-recent-writing.test.mjs
+      - node scripts/update-recent-writing.mjs
+
+  - name: push-readme
+    image: dhi.io/node:24-alpine3.23-dev@sha256:141c59c2d30cfbcea7502b5975a1c376b5b409d3ffdc869b85a84ed8f5d9d863
     environment:
       GIT_PUSH_TOKEN:
         from_secret: forgejo_profile_push_token
       GIT_PUSH_USER: m0sh1
     commands:
-      - node scripts/update-recent-writing.mjs
       - |
         if git diff --quiet -- README.md; then
           echo "README.md already has the latest writing."

@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
 import { readFile, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 const README_PATH = new URL("../README.md", import.meta.url);
 const FEED_URL = "https://yael.m0sh1.cc/rss/";
 const START = "<!-- recent-writing:start -->";
 const END = "<!-- recent-writing:end -->";
 const MAX_ITEMS = 3;
+const FETCH_TIMEOUT_MS = 15_000;
 
 function decodeEntities(value) {
   return value
@@ -20,6 +22,10 @@ function decodeEntities(value) {
     .replaceAll("&#x201D;", "\"");
 }
 
+function escapeMarkdownLinkText(value) {
+  return value.replace(/[\\[\]()]/g, "\\$&");
+}
+
 function textFromTag(item, tag) {
   const match = item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "i"));
   if (!match) {
@@ -29,7 +35,7 @@ function textFromTag(item, tag) {
   return decodeEntities(match[1].replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "").trim());
 }
 
-function parseFeed(xml) {
+export function parseFeed(xml) {
   return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
     .map(([, item]) => ({
       title: textFromTag(item, "title"),
@@ -40,7 +46,7 @@ function parseFeed(xml) {
     .slice(0, MAX_ITEMS);
 }
 
-function formatDate(pubDate) {
+export function formatDate(pubDate) {
   const date = new Date(pubDate);
   if (Number.isNaN(date.getTime())) {
     return "";
@@ -54,16 +60,17 @@ function formatDate(pubDate) {
   }).format(date);
 }
 
-function renderItems(items) {
+export function renderItems(items) {
   return items
     .map((item) => {
       const date = formatDate(item.pubDate);
-      return date ? `- [${item.title}](${item.link}) - ${date}` : `- [${item.title}](${item.link})`;
+      const title = escapeMarkdownLinkText(item.title);
+      return date ? `- [${title}](${item.link}) - ${date}` : `- [${title}](${item.link})`;
     })
     .join("\n");
 }
 
-function replaceBlock(readme, rendered) {
+export function replaceBlock(readme, rendered) {
   const startIndex = readme.indexOf(START);
   const endIndex = readme.indexOf(END);
 
@@ -74,20 +81,46 @@ function replaceBlock(readme, rendered) {
   return `${readme.slice(0, startIndex + START.length)}\n${rendered}\n${readme.slice(endIndex)}`;
 }
 
-const response = await fetch(FEED_URL);
-if (!response.ok) {
-  throw new Error(`Failed to fetch ${FEED_URL}: HTTP ${response.status}`);
+export async function fetchFeed(fetchImpl, url, timeoutMs) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => {
+    controller.abort(new Error(`Fetching ${url} timed out after ${timeoutMs}ms`));
+  }, timeoutMs);
+
+  try {
+    const response = await fetchImpl(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: HTTP ${response.status}`);
+    }
+
+    return await response.text();
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
-const xml = await response.text();
-const items = parseFeed(xml);
-if (items.length === 0) {
-  throw new Error(`No RSS items found in ${FEED_URL}`);
+export async function updateRecentWriting({
+  feedUrl = FEED_URL,
+  readmePath = README_PATH,
+  fetchImpl = fetch,
+  readFileImpl = readFile,
+  writeFileImpl = writeFile,
+  timeoutMs = FETCH_TIMEOUT_MS,
+} = {}) {
+  const xml = await fetchFeed(fetchImpl, feedUrl, timeoutMs);
+  const items = parseFeed(xml);
+  if (items.length === 0) {
+    throw new Error(`No RSS items found in ${feedUrl}`);
+  }
+
+  const readme = await readFileImpl(readmePath, "utf8");
+  const updated = replaceBlock(readme, renderItems(items));
+
+  if (updated !== readme) {
+    await writeFileImpl(readmePath, updated);
+  }
 }
 
-const readme = await readFile(README_PATH, "utf8");
-const updated = replaceBlock(readme, renderItems(items));
-
-if (updated !== readme) {
-  await writeFile(README_PATH, updated);
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  await updateRecentWriting();
 }
