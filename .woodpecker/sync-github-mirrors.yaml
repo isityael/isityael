@@ -4,14 +4,14 @@ when:
 
 clone:
   git:
-    image: woodpeckerci/plugin-git:2.9.0@sha256:1e536c0da16f8cbb35e870fb3d75fde45c85c7239225fea2209cc6990ba330e4
+    image: woodpeckerci/plugin-git:2.9.2@sha256:ebde4a4d07e0e24b630082484d192890dd4f6d442d90bf5466f0763860f83652
     settings:
       lfs: false
       tags: false
 
 steps:
   - name: sync-github-mirrors
-    image: dhi.io/node:24-alpine3.23-dev@sha256:141c59c2d30cfbcea7502b5975a1c376b5b409d3ffdc869b85a84ed8f5d9d863
+    image: dhi.io/node:26.2.0-alpine3.23-dev@sha256:88d721c72f82cc1522b4900750bdc7cc7191e73d5b9b5343d8e970ef4a3cf5d1
     environment:
       GITHUB_PUSH_TOKEN:
         from_secret: github_push_token
