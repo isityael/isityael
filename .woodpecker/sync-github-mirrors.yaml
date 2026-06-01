@@ -4,7 +4,7 @@ when:
 
 clone:
   git:
-    image: woodpeckerci/plugin-git:2.9.0@sha256:1e536c0da16f8cbb35e870fb3d75fde45c85c7239225fea2209cc6990ba330e4
+    image: woodpeckerci/plugin-git:2.9.2@sha256:ebde4a4d07e0e24b630082484d192890dd4f6d442d90bf5466f0763860f83652
     settings:
       lfs: false
       tags: false
