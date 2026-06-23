@@ -24,7 +24,6 @@ const MIRRORS = [
   ["harbor", ["main", "progressed"]],
   ["livesync-bridge", ["main"]],
   ["livesync-commonlib", ["main"]],
-  ["infra-cli", ["main"]],
   ["infra", ["main"]],
 ];
 
