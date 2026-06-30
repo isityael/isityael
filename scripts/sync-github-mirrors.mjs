@@ -7,11 +7,11 @@ import { spawn } from "node:child_process";
 
 const FORGEJO_BASE_URL = process.env.FORGEJO_BASE_URL ?? "https://git.m0sh1.cc";
 const FORGEJO_OWNER = process.env.FORGEJO_OWNER ?? "m0sh1";
-const GITHUB_OWNER = process.env.GITHUB_OWNER ?? "yaelmoshi";
+const GITHUB_OWNER = process.env.GITHUB_OWNER ?? "isityael";
 const GITHUB_PUSH_TOKEN = process.env.GITHUB_PUSH_TOKEN ?? process.env.GITHUB_TOKEN;
 
 const MIRRORS = [
-  ["yaelmoshi", ["main"]],
+  ["yaelmoshi", ["main"], "isityael"],
   ["helm-charts", ["main"]],
   ["karakeep", ["main"]],
   ["proxmox-csi-plugin", ["isityael/main"]],
@@ -68,9 +68,9 @@ async function refSha(remoteUrl, branch) {
   return sha || "";
 }
 
-async function mirrorBranch(repo, branch) {
+async function mirrorBranch(repo, branch, githubRepo = repo) {
   const sourceUrl = `${FORGEJO_BASE_URL}/${FORGEJO_OWNER}/${repo}.git`;
-  const targetUrl = `https://github.com/${GITHUB_OWNER}/${repo}.git`;
+  const targetUrl = `https://github.com/${GITHUB_OWNER}/${githubRepo}.git`;
   const sourceSha = await refSha(sourceUrl, branch);
 
   if (!sourceSha) {
@@ -113,8 +113,8 @@ await writeFile(
 );
 await chmod(netrcPath, 0o600);
 
-for (const [repo, branches] of MIRRORS) {
+for (const [repo, branches, githubRepo] of MIRRORS) {
   for (const branch of branches) {
-    await mirrorBranch(repo, branch);
+    await mirrorBranch(repo, branch, githubRepo);
   }
 }

@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://yael.m0sh1.cc">Website</a> ·
-  <a href="https://github.com/yaelmoshi">GitHub</a> ·
+  <a href="https://github.com/isityael">GitHub</a> ·
   <a href="https://git.m0sh1.cc/m0sh1">Forgejo</a>
 </p>
 
@@ -50,15 +50,15 @@ Recent posts:
 
 | Project | What It Is |
 |---|---|
-| [wakapi](https://github.com/yaelmoshi/wakapi) | Self-hosted WakaTime-compatible coding statistics backend |
-| [karakeep](https://github.com/yaelmoshi/karakeep) | Self-hostable bookmark, notes, image, AI tagging, and search app |
-| [proxmox-csi-plugin](https://github.com/yaelmoshi/proxmox-csi-plugin) | Kubernetes CSI integration for Proxmox storage |
-| [netzbremse](https://github.com/yaelmoshi/netzbremse) | CNPG-backed speed telemetry service and dashboard |
-| [helm-charts](https://github.com/yaelmoshi/helm-charts) | Helm chart work for self-hosted and GitOps-managed services |
-| [chart-version-guard](https://github.com/yaelmoshi/chart-version-guard) | CI guardrail enforcing Helm chart version bumps |
-| [harbor](https://github.com/yaelmoshi/harbor) | Cloud-native registry work used in the local platform |
-| [csi-driver-nfs](https://github.com/yaelmoshi/csi-driver-nfs) | Kubernetes NFS CSI driver maintenance and dependency work |
-| [apple-mail-mcp](https://github.com/yaelmoshi/apple-mail-mcp) | MCP server for Apple Mail automation and assistant workflows |
+| [wakapi](https://github.com/isityael/wakapi) | Self-hosted WakaTime-compatible coding statistics backend |
+| [karakeep](https://github.com/isityael/karakeep) | Self-hostable bookmark, notes, image, AI tagging, and search app |
+| [proxmox-csi-plugin](https://github.com/isityael/proxmox-csi-plugin) | Kubernetes CSI integration for Proxmox storage |
+| [netzbremse](https://github.com/isityael/netzbremse) | CNPG-backed speed telemetry service and dashboard |
+| [helm-charts](https://github.com/isityael/helm-charts) | Helm chart work for self-hosted and GitOps-managed services |
+| [chart-version-guard](https://github.com/isityael/chart-version-guard) | CI guardrail enforcing Helm chart version bumps |
+| [harbor](https://github.com/isityael/harbor) | Cloud-native registry work used in the local platform |
+| [csi-driver-nfs](https://github.com/isityael/csi-driver-nfs) | Kubernetes NFS CSI driver maintenance and dependency work |
+| [apple-mail-mcp](https://github.com/isityael/apple-mail-mcp) | MCP server for Apple Mail automation and assistant workflows |
 
 ## Tooling I Reach For
 
