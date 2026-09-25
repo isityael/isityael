@@ -3,10 +3,6 @@ when:
     branch: main
   - event: cron
     branch: main
-  - event: push
-    branch: main
-  - event: pull_request
-    branch: main
 
 clone:
   git:

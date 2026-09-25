@@ -1,10 +1,6 @@
 when:
   - event: manual
   - event: cron
-  - event: push
-    branch: main
-  - event: pull_request
-    branch: main
 
 clone:
   git:
@@ -14,15 +10,8 @@ clone:
       tags: false
 
 steps:
-  - name: validate-mirror-config
-    image: &node-image dhi.io/node:26.10.0-alpine3.24-dev@sha256:ff2c07e1681b1bcf1747b55ed54b900a327602a37975fb77487e2f795e822dfd
-    commands:
-      - node --check scripts/sync-github-mirrors.mjs
-    when:
-      - event: [push, pull_request]
-
   - name: sync-github-mirrors
-    image: *node-image
+    image: dhi.io/node:26.10.0-alpine3.24-dev@sha256:ff2c07e1681b1bcf1747b55ed54b900a327602a37975fb77487e2f795e822dfd
     environment:
       FORGEJO_PUSH_TOKEN:
         from_secret: forgejo_profile_push_token

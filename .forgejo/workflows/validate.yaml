@@ -1,0 +1,29 @@
+name: Validate profile automation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/**
+      - .woodpecker/**
+      - .forgejo/workflows/validate.yaml
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/**
+      - .woodpecker/**
+      - .forgejo/workflows/validate.yaml
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '26'
+      - name: Check mirror script syntax
+        run: node --check scripts/sync-github-mirrors.mjs
+      - name: Test writing updater
+        run: node --test scripts/update-recent-writing.test.mjs
