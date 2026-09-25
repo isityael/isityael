@@ -36,13 +36,20 @@ function textFromTag(item, tag) {
 }
 
 export function parseFeed(xml) {
+  const seenLinks = new Set();
   return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
     .map(([, item]) => ({
       title: textFromTag(item, "title"),
       link: textFromTag(item, "link"),
       pubDate: textFromTag(item, "pubDate"),
     }))
-    .filter((item) => item.title && item.link)
+    .filter((item) => {
+      if (!item.title || !item.link || seenLinks.has(item.link)) {
+        return false;
+      }
+      seenLinks.add(item.link);
+      return true;
+    })
     .slice(0, MAX_ITEMS);
 }
 
@@ -74,8 +81,11 @@ export function replaceBlock(readme, rendered) {
   const startIndex = readme.indexOf(START);
   const endIndex = readme.indexOf(END);
 
-  if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
-    throw new Error(`README.md must contain ${START} and ${END} markers`);
+  if (
+    startIndex === -1 || endIndex === -1 || endIndex <= startIndex ||
+    startIndex !== readme.lastIndexOf(START) || endIndex !== readme.lastIndexOf(END)
+  ) {
+    throw new Error(`README.md must contain exactly one ordered pair of ${START} and ${END} markers`);
   }
 
   return `${readme.slice(0, startIndex + START.length)}\n${rendered}\n${readme.slice(endIndex)}`;
@@ -107,13 +117,20 @@ export async function updateRecentWriting({
   writeFileImpl = writeFile,
   timeoutMs = FETCH_TIMEOUT_MS,
 } = {}) {
+  const readme = await readFileImpl(readmePath, "utf8");
+  // Removing both markers is the opt-out for the public recent-post section.
+  if (!readme.includes(START) && !readme.includes(END)) {
+    return;
+  }
+  // Fail before contacting the feed if the managed section is ambiguous.
+  replaceBlock(readme, "");
+
   const xml = await fetchFeed(fetchImpl, feedUrl, timeoutMs);
   const items = parseFeed(xml);
   if (items.length === 0) {
     throw new Error(`No RSS items found in ${feedUrl}`);
   }
 
-  const readme = await readFileImpl(readmePath, "utf8");
   const updated = replaceBlock(readme, renderItems(items));
 
   if (updated !== readme) {
