@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+import { spawn } from "node:child_process";
 import { chmod, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
 
 const FORGEJO_BASE_URL = process.env.FORGEJO_BASE_URL ?? "https://git.m0sh1.cc";
 const FORGEJO_OWNER = process.env.FORGEJO_OWNER ?? "isityael";

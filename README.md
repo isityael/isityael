@@ -1,15 +1,13 @@
-<h1 align="center">Yael</h1>
+# Yael
 
-<p align="center">
-  DevOps engineer, self-hosting person, homelab caretaker, and trans woman from Germany.
-  I build systems, write about becoming real, and try to keep both honest.
-</p>
+DevOps engineer, self-hosting person, homelab caretaker, and trans woman from
+Germany.
+I build systems, write about becoming real, and try to keep both honest. (And to
+be honest I use AI slop when I'm lazy.)
 
-<p align="center">
-  <a href="https://yael.m0sh1.cc">Website</a> ·
-  <a href="https://github.com/isityael">GitHub</a> ·
-  <a href="https://git.m0sh1.cc/isityael">Forgejo</a>
-</p>
+[Website](https://yael.m0sh1.cc) ·
+[GitHub](https://github.com/isityael) ·
+[Forgejo](https://git.m0sh1.cc/isityael)
 
 ---
 
@@ -18,14 +16,19 @@
 I build infrastructure that is declarative, observable, reproducible, and
 hopefully not a pain in the ass to recover when reality drifts. Which it does.
 
-- GitOps-managed Kubernetes, mostly with Argo CD, Helm, SealedSecrets, and policy guardrails
-- Self-hosted developer platforms built around Forgejo, Woodpecker CI, Harbor, Renovate, and internal tooling
-- Homelab infrastructure across Proxmox, OPNsense, DNS, storage, networking, and cluster lifecycle work
-- Security-minded automation for supply-chain hygiene, image hardening, and operational recovery
+- GitOps-managed Kubernetes, mostly with Argo CD, Helm, SealedSecrets, and
+  policy guardrails
+- Self-hosted developer platforms built around Forgejo, Woodpecker CI, Harbor,
+  Renovate, and internal tooling
+- Homelab infrastructure across Proxmox, OPNsense, DNS, storage, networking, and
+  cluster lifecycle work
+- Security-minded automation for supply-chain hygiene, image hardening, and
+  operational recovery
 - Practical tools in Go, Bash, Python, and whatever else fits the job
 
 Forgejo is home for my code, with public mirrors on GitHub. The goal is to keep
-self-hosted systems useful without letting them become a second full-time job again.
+self-hosted systems useful without letting them become a second full-time job
+again.
 
 ## Writing
 
@@ -46,12 +49,11 @@ topics, and brain farts about technology, identity, and life.
 
 ## Tooling I Reach For
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=go,ts,rust,python,bash,kubernetes,docker,ansible,terraform,postgres,git,github" alt="Go, TypeScript, Rust, Python, Bash, Kubernetes, Docker, Ansible, Terraform, PostgreSQL, Git, and GitHub" />
-</p>
+![Languages and infrastructure tools][tool-icons]
+
+[tool-icons]: https://skillicons.dev/icons?i=go,ts,rust,python,bash,kubernetes,docker,ansible,terraform,postgres,git,github "Go, TypeScript, Rust, Python, Bash, Kubernetes, Docker, Ansible, Terraform, PostgreSQL, Git, and GitHub"
 
 ---
 
-<p align="center">
-  No ads. No tracking nonsense. No personal-brand cosplay. Just stupid writing and building internet stuff.
-</p>
+No ads. No tracking nonsense. No personal-brand cosplay. Just stupid writing and
+building internet stuff.

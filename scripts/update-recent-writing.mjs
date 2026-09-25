@@ -11,133 +11,149 @@ const MAX_ITEMS = 3;
 const FETCH_TIMEOUT_MS = 15_000;
 
 function decodeEntities(value) {
-  return value
-    .replaceAll("&amp;", "&")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">")
-    .replaceAll("&quot;", "\"")
-    .replaceAll("&apos;", "'")
-    .replaceAll("&#x2019;", "'")
-    .replaceAll("&#x201C;", "\"")
-    .replaceAll("&#x201D;", "\"");
+	return value
+		.replaceAll("&amp;", "&")
+		.replaceAll("&lt;", "<")
+		.replaceAll("&gt;", ">")
+		.replaceAll("&quot;", '"')
+		.replaceAll("&apos;", "'")
+		.replaceAll("&#x2019;", "'")
+		.replaceAll("&#x201C;", '"')
+		.replaceAll("&#x201D;", '"');
 }
 
 function escapeMarkdownLinkText(value) {
-  return value.replace(/[\\[\]()]/g, "\\$&");
+	return value.replace(/[\\[\]()]/g, "\\$&");
 }
 
 function textFromTag(item, tag) {
-  const match = item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "i"));
-  if (!match) {
-    return "";
-  }
+	const match = item.match(
+		new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "i"),
+	);
+	if (!match) {
+		return "";
+	}
 
-  return decodeEntities(match[1].replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "").trim());
+	return decodeEntities(
+		match[1]
+			.replace(/^<!\[CDATA\[/, "")
+			.replace(/\]\]>$/, "")
+			.trim(),
+	);
 }
 
 export function parseFeed(xml) {
-  const seenLinks = new Set();
-  return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
-    .map(([, item]) => ({
-      title: textFromTag(item, "title"),
-      link: textFromTag(item, "link"),
-      pubDate: textFromTag(item, "pubDate"),
-    }))
-    .filter((item) => {
-      if (!item.title || !item.link || seenLinks.has(item.link)) {
-        return false;
-      }
-      seenLinks.add(item.link);
-      return true;
-    })
-    .slice(0, MAX_ITEMS);
+	const seenLinks = new Set();
+	return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
+		.map(([, item]) => ({
+			title: textFromTag(item, "title"),
+			link: textFromTag(item, "link"),
+			pubDate: textFromTag(item, "pubDate"),
+		}))
+		.filter((item) => {
+			if (!item.title || !item.link || seenLinks.has(item.link)) {
+				return false;
+			}
+			seenLinks.add(item.link);
+			return true;
+		})
+		.slice(0, MAX_ITEMS);
 }
 
 export function formatDate(pubDate) {
-  const date = new Date(pubDate);
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
+	const date = new Date(pubDate);
+	if (Number.isNaN(date.getTime())) {
+		return "";
+	}
 
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(date);
+	return new Intl.DateTimeFormat("en-GB", {
+		day: "2-digit",
+		month: "short",
+		year: "numeric",
+		timeZone: "UTC",
+	}).format(date);
 }
 
 export function renderItems(items) {
-  return items
-    .map((item) => {
-      const date = formatDate(item.pubDate);
-      const title = escapeMarkdownLinkText(item.title);
-      return date ? `- [${title}](${item.link}) - ${date}` : `- [${title}](${item.link})`;
-    })
-    .join("\n");
+	return items
+		.map((item) => {
+			const date = formatDate(item.pubDate);
+			const title = escapeMarkdownLinkText(item.title);
+			return date
+				? `- [${title}](${item.link}) - ${date}`
+				: `- [${title}](${item.link})`;
+		})
+		.join("\n");
 }
 
 export function replaceBlock(readme, rendered) {
-  const startIndex = readme.indexOf(START);
-  const endIndex = readme.indexOf(END);
+	const startIndex = readme.indexOf(START);
+	const endIndex = readme.indexOf(END);
 
-  if (
-    startIndex === -1 || endIndex === -1 || endIndex <= startIndex ||
-    startIndex !== readme.lastIndexOf(START) || endIndex !== readme.lastIndexOf(END)
-  ) {
-    throw new Error(`README.md must contain exactly one ordered pair of ${START} and ${END} markers`);
-  }
+	if (
+		startIndex === -1 ||
+		endIndex === -1 ||
+		endIndex <= startIndex ||
+		startIndex !== readme.lastIndexOf(START) ||
+		endIndex !== readme.lastIndexOf(END)
+	) {
+		throw new Error(
+			`README.md must contain exactly one ordered pair of ${START} and ${END} markers`,
+		);
+	}
 
-  return `${readme.slice(0, startIndex + START.length)}\n${rendered}\n${readme.slice(endIndex)}`;
+	return `${readme.slice(0, startIndex + START.length)}\n${rendered}\n${readme.slice(endIndex)}`;
 }
 
 export async function fetchFeed(fetchImpl, url, timeoutMs) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => {
-    controller.abort(new Error(`Fetching ${url} timed out after ${timeoutMs}ms`));
-  }, timeoutMs);
+	const controller = new AbortController();
+	const timeout = setTimeout(() => {
+		controller.abort(
+			new Error(`Fetching ${url} timed out after ${timeoutMs}ms`),
+		);
+	}, timeoutMs);
 
-  try {
-    const response = await fetchImpl(url, { signal: controller.signal });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}: HTTP ${response.status}`);
-    }
+	try {
+		const response = await fetchImpl(url, { signal: controller.signal });
+		if (!response.ok) {
+			throw new Error(`Failed to fetch ${url}: HTTP ${response.status}`);
+		}
 
-    return await response.text();
-  } finally {
-    clearTimeout(timeout);
-  }
+		return await response.text();
+	} finally {
+		clearTimeout(timeout);
+	}
 }
 
 export async function updateRecentWriting({
-  feedUrl = FEED_URL,
-  readmePath = README_PATH,
-  fetchImpl = fetch,
-  readFileImpl = readFile,
-  writeFileImpl = writeFile,
-  timeoutMs = FETCH_TIMEOUT_MS,
+	feedUrl = FEED_URL,
+	readmePath = README_PATH,
+	fetchImpl = fetch,
+	readFileImpl = readFile,
+	writeFileImpl = writeFile,
+	timeoutMs = FETCH_TIMEOUT_MS,
 } = {}) {
-  const readme = await readFileImpl(readmePath, "utf8");
-  // Removing both markers is the opt-out for the public recent-post section.
-  if (!readme.includes(START) && !readme.includes(END)) {
-    return;
-  }
-  // Fail before contacting the feed if the managed section is ambiguous.
-  replaceBlock(readme, "");
+	const readme = await readFileImpl(readmePath, "utf8");
+	// Removing both markers is the opt-out for the public recent-post section.
+	if (!readme.includes(START) && !readme.includes(END)) {
+		return;
+	}
+	// Fail before contacting the feed if the managed section is ambiguous.
+	replaceBlock(readme, "");
 
-  const xml = await fetchFeed(fetchImpl, feedUrl, timeoutMs);
-  const items = parseFeed(xml);
-  if (items.length === 0) {
-    throw new Error(`No RSS items found in ${feedUrl}`);
-  }
+	const xml = await fetchFeed(fetchImpl, feedUrl, timeoutMs);
+	const items = parseFeed(xml);
+	if (items.length === 0) {
+		throw new Error(`No RSS items found in ${feedUrl}`);
+	}
 
-  const updated = replaceBlock(readme, renderItems(items));
+	const updated = replaceBlock(readme, renderItems(items));
 
-  if (updated !== readme) {
-    await writeFileImpl(readmePath, updated);
-  }
+	if (updated !== readme) {
+		await writeFileImpl(readmePath, updated);
+	}
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  await updateRecentWriting();
+	await updateRecentWriting();
 }
