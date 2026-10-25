@@ -13,7 +13,7 @@ clone:
 
 steps:
   - name: validate-recent-writing
-    image: &node-image dhi.io/node:26.11.0-alpine3.24-dev@sha256:62b5dbaa16acf23a35f3801a40c2916f95fbf09806838a230907033d46c9944e
+    image: &node-image dhi.io/node:26.12.1-alpine3.24-dev@sha256:0614d22bcdfe1f5fbf985e68b455e61aefba8bc697894a6e91a8542a3e5f26b4
     commands:
       - node --test scripts/update-recent-writing.test.mjs
 
