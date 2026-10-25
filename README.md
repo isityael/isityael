@@ -1,11 +1,7 @@
 # Yael
 
-DevOps engineer, self-hosting person, homelab caretaker, and trans woman from
-Germany.
-I build systems, write about becoming real, and try to keep both honest. (And to
-be honest I use AI slop when I'm lazy.)
+DevOps engineer focused on self-hosted infrastructure and automation.
 
-[Website](https://yael.m0sh1.cc) ·
 [GitHub](https://github.com/isityael) ·
 [Forgejo](https://git.m0sh1.cc/isityael)
 
@@ -13,8 +9,7 @@ be honest I use AI slop when I'm lazy.)
 
 ## What I Work On
 
-I build infrastructure that is declarative, observable, reproducible, and
-hopefully not a pain in the ass to recover when reality drifts. Which it does.
+Declarative infrastructure, reproducible deployments, and reliable operations.
 
 - GitOps-managed Kubernetes, mostly with Argo CD, Helm, SealedSecrets, and
   policy guardrails
@@ -26,15 +21,7 @@ hopefully not a pain in the ass to recover when reality drifts. Which it does.
   operational recovery
 - Practical tools in Go, Bash, Python, and whatever else fits the job
 
-Forgejo is home for my code, with public mirrors on GitHub. The goal is to keep
-self-hosted systems useful without letting them become a second full-time job
-again.
-
-## Writing
-
-I keep a little blog at [yael.m0sh1.cc](https://yael.m0sh1.cc/)
-for personal writing, transition documentation, homelab notes, infrastructure
-topics, and brain farts about technology, identity, and life.
+Code is hosted on Forgejo, with public mirrors on GitHub.
 
 ## Selected Work
 
@@ -45,15 +32,10 @@ topics, and brain farts about technology, identity, and life.
 | [wakapi-dhi](https://github.com/isityael/wakapi-dhi) | Self-hosted WakaTime-compatible coding statistics backend |
 | [netzbremse](https://github.com/isityael/netzbremse) | CNPG-backed speed telemetry service and dashboard |
 | [livesync-bridge](https://github.com/isityael/livesync-bridge) | Bridge service for self-hosted LiveSync workflows |
-| [yael_overlay](https://github.com/isityael/yael_overlay) | Personal Gentoo overlay |
+| [yael_overlay](https://github.com/isityael/yael_overlay) | Gentoo package overlay |
 
 ## Tooling I Reach For
 
 ![Languages and infrastructure tools][tool-icons]
 
 [tool-icons]: https://skillicons.dev/icons?i=go,ts,rust,python,bash,kubernetes,docker,ansible,terraform,postgres,git,github "Go, TypeScript, Rust, Python, Bash, Kubernetes, Docker, Ansible, Terraform, PostgreSQL, Git, and GitHub"
-
----
-
-No ads. No tracking nonsense. No personal-brand cosplay. Just stupid writing and
-building internet stuff.
