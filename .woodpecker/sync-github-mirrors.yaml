@@ -4,14 +4,14 @@ when:
 
 clone:
   git:
-    image: woodpeckerci/plugin-git:2.11.0@sha256:9802cb7852dcf31f9c5c1d1ddeadfb9002d4fae85751f7b6a792eedb267bcc59
+    image: woodpeckerci/plugin-git:2.11.0
     settings:
       lfs: false
       tags: false
 
 steps:
   - name: sync-github-mirrors
-    image: dhi.io/node:26.13.0-alpine3.24-dev@sha256:b1f537fd18d3cab60f2da090b4cd60f5fd8ef7f7ac8a81a3c5514ef1be35b941
+    image: dhi.io/node:26.13.0-alpine3.24-dev
     environment:
       FORGEJO_PUSH_TOKEN:
         from_secret: forgejo_profile_push_token
