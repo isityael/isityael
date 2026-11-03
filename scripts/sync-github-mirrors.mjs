@@ -23,7 +23,7 @@ const MIRRORS = [
 	["csi-driver-nfs", ["isityael/dhi-hardening"]],
 	["apple-mail-mcp", ["main"]],
 	["chart-version-guard", ["main"]],
-	["harbor", ["main", "progressed"]],
+	["harbor", ["progressed"]],
 	["livesync-bridge", ["main"]],
 	["livesync-commonlib", ["main"]],
 	["infra", ["main"]],
